@@ -6,15 +6,11 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 🔥 DEFINE PUBLIC DIR EXPLICITLY
 const publicPath = path.join(__dirname, "public");
 
 const PORT = process.env.PORT || 10000;
 
-// 🔥 FORCE STATIC SERVING FROM /public ONLY
-app.use(express.static(publicPath));
-
-// 🔥 API
+// API
 app.get("/api/deal-flow/run", (req, res) => {
 res.json({
 status: "success",
@@ -23,8 +19,9 @@ timestamp: new Date().toISOString(),
 });
 });
 
-// 🔥 HARD ROOT RESPONSE (FORCE HTML)
+// FORCE HTML RESPONSE
 app.get("/", (req, res) => {
+res.setHeader("Content-Type", "text/html");
 res.sendFile(path.join(publicPath, "index.html"));
 });
 
