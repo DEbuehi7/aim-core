@@ -8,6 +8,9 @@ const __dirname = path.dirname(__filename);
 
 const PORT = process.env.PORT || 3000;
 
+// STATIC FIRST
+app.use(express.static(__dirname));
+
 // API
 app.get("/api/deal-flow/run", (req, res) => {
 res.json({
@@ -17,14 +20,12 @@ timestamp: new Date().toISOString(),
 });
 });
 
-// ROOT
+// ROOT (fallback)
 app.get("/", (req, res) => {
 res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// STATIC
-app.use(express.static(__dirname));
-
 app.listen(PORT, () => {
 console.log(`Server running on port ${PORT}`);
 });
+
