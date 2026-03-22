@@ -7,10 +7,22 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// PUBLIC FOLDER
 const publicPath = path.join(__dirname, "public");
 
 const PORT = process.env.PORT || 10000;
+
+// FORCE HTML RESPONSE FOR EVERYTHING EXCEPT API
+app.use((req, res, next) => {
+if (req.path.startsWith("/api")) return next();
+
+const html = fs.readFileSync(path.join(publicPath, "index.html"));
+
+res.writeHead(200, {
+"Content-Type": "text/html",
+});
+
+res.end(html);
+});
 
 // API ROUTE
 app.get("/api/deal-flow/run", (req, res) => {
@@ -19,14 +31,6 @@ status: "success",
 message: "AIM Deal Engine is running",
 timestamp: new Date().toISOString(),
 });
-});
-
-// 🔥 ULTRA-NUCLEAR HTML SERVE (FORCE RENDER)
-app.get("/", (req, res) => {
-const html = fs.readFileSync(path.join(publicPath, "index.html"), "utf8");
-
-res.setHeader("Content-Type", "text/html; charset=utf-8");
-res.send(html);
 });
 
 app.listen(PORT, () => {
