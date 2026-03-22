@@ -1,4 +1,5 @@
 import express from "express";import path from "path";
+import fs from "fs";
 import { fileURLToPath } from "url";
 
 const app = express();
@@ -6,11 +7,12 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// PUBLIC FOLDER
 const publicPath = path.join(__dirname, "public");
 
 const PORT = process.env.PORT || 10000;
 
-// API
+// API ROUTE
 app.get("/api/deal-flow/run", (req, res) => {
 res.json({
 status: "success",
@@ -19,10 +21,12 @@ timestamp: new Date().toISOString(),
 });
 });
 
-// FORCE HTML RESPONSE
+// 🔥 ULTRA-NUCLEAR HTML SERVE (FORCE RENDER)
 app.get("/", (req, res) => {
-res.setHeader("Content-Type", "text/html");
-res.sendFile(path.join(publicPath, "index.html"));
+const html = fs.readFileSync(path.join(publicPath, "index.html"), "utf8");
+
+res.setHeader("Content-Type", "text/html; charset=utf-8");
+res.send(html);
 });
 
 app.listen(PORT, () => {
