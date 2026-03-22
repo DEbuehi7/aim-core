@@ -6,12 +6,15 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = process.env.PORT || 3000;
+// 🔥 DEFINE PUBLIC DIR EXPLICITLY
+const publicPath = path.join(__dirname, "public");
 
-// STATIC FIRST
-app.use(express.static(__dirname));
+const PORT = process.env.PORT || 10000;
 
-// API
+// 🔥 FORCE STATIC SERVING FROM /public ONLY
+app.use(express.static(publicPath));
+
+// 🔥 API
 app.get("/api/deal-flow/run", (req, res) => {
 res.json({
 status: "success",
@@ -20,12 +23,12 @@ timestamp: new Date().toISOString(),
 });
 });
 
-// ROOT (fallback)
+// 🔥 HARD ROOT RESPONSE (FORCE HTML)
 app.get("/", (req, res) => {
-res.sendFile(path.join(__dirname, "index.html"));
+res.setHeader("Content-Type", "text/html");
+res.sendFile(path.join(publicPath, "index.html"));
 });
 
 app.listen(PORT, () => {
-console.log(`Server running on port ${PORT}`);
+console.log(`🔥 AIM CORE running on port ${PORT}`);
 });
-
