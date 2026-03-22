@@ -19,11 +19,10 @@ timestamp: new Date().toISOString(),
 
 // ROOT
 app.get("/", (req, res) => {
-res.type("html");
-res.sendFile(path.resolve(__dirname, "index.html"));
+res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// STATIC LAST
+// STATIC
 app.use(express.static(__dirname));
 
 app.listen(PORT, () => {
