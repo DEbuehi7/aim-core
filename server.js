@@ -1,8 +1,13 @@
-const express = require("express");const path = require("path");
+import express from "express";import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 
-// ✅ REQUIRED FOR RENDER
+// ✅ Fix __dirname (CRITICAL)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// ✅ PORT for Render
 const PORT = process.env.PORT || 3000;
 
 // ✅ Serve static files
