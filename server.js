@@ -25,7 +25,6 @@ timestamp: new Date().toISOString(),
 
 // 🔥 HARD ROOT RESPONSE (FORCE HTML)
 app.get("/", (req, res) => {
-res.setHeader("Content-Type", "text/html");
 res.sendFile(path.join(publicPath, "index.html"));
 });
 
