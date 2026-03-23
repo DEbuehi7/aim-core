@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
 <head>
-<meta charset="UTF-8" />
 <title>AIM Core</title>
 </head>
 <body>
@@ -14,10 +12,17 @@
 
 <script>
 async function runDeal() {
-const res = await fetch('/api/deal-flow/run');
-const data = await res.json();
-document.getElementById('output').textContent =
-JSON.stringify(data, null, 2);
+try {
+alert("Running...");
+
+const res = await fetch('https://aim-core-api.onrender.com/api/deal-flow/run');
+
+const text = await res.text();
+document.getElementById('output').textContent = text;
+
+} catch (err) {
+alert("ERROR: " + err.message);
+}
 }
 </script>
 
